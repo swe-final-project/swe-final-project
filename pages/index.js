@@ -1,13 +1,16 @@
 import Image from "next/image";
+import React from 'react';
 import { Inter } from "next/font/google";
 import Button from "@/components/button";
+import Login from 'components/Login';
 
 // LOGIN PAGE
 
-export default function Login() {
+export default function index() {
   return (
-    <div>
-      <div>login page</div>
+    <div>hello
+      <Login />
     </div>
+    
   );
 }
