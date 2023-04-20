@@ -12,24 +12,32 @@ export default function Home() {
     event.preventDefault();
     setLoading(true);
 
-    try {
-      const response = await fetch("/api/hello", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ assignment: assignmentInput }),
-      });
+    const maxLength = 500; // Adjust this value based on your needs
+    const inputChunks = splitInput(assignmentInput, maxLength);
+    const results = [];
 
-      const data = await response.json();
-      if (response.status !== 200) {
-        throw (
-          data.error ||
-          new Error(`Request failed with status ${response.status}`)
-        );
+    try {
+      for (const chunk of inputChunks) {
+        const response = await fetch("/api/hello", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ assignment: chunk }),
+        });
+
+        const data = await response.json();
+        if (response.status !== 200) {
+          throw (
+            data.error ||
+            new Error(`Request failed with status ${response.status}`)
+          );
+        }
+
+        results.push(data.result);
       }
 
-      setResult(data.result);
+      setResult(results.join("\n"));
       setAssignmentInput("");
     } catch (error) {
       // Consider implementing your own error handling logic here
@@ -61,7 +69,6 @@ export default function Home() {
 
       return modifiedLine;
     }
-
     return (
       <ul>
         {lines.map((line, index) => (
@@ -72,6 +79,26 @@ export default function Home() {
         ))}
       </ul>
     );
+  }
+  function splitInput(input, maxLength) {
+    const words = input.split(" ");
+    const chunks = [];
+    let currentChunk = "";
+
+    words.forEach((word) => {
+      if (currentChunk.length + word.length <= maxLength) {
+        currentChunk += " " + word;
+      } else {
+        chunks.push(currentChunk.trim());
+        currentChunk = word;
+      }
+    });
+
+    if (currentChunk.length > 0) {
+      chunks.push(currentChunk.trim());
+    }
+
+    return chunks;
   }
 
   return (
