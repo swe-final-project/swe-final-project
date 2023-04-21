@@ -12,32 +12,24 @@ export default function Home() {
     event.preventDefault();
     setLoading(true);
 
-    const maxLength = 500; // Adjust this value based on your needs
-    const inputChunks = splitInput(assignmentInput, maxLength);
-    const results = [];
-
     try {
-      for (const chunk of inputChunks) {
-        const response = await fetch("/api/hello", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ assignment: chunk }),
-        });
+      const response = await fetch("/api/hello", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ assignment: assignmentInput }),
+      });
 
-        const data = await response.json();
-        if (response.status !== 200) {
-          throw (
-            data.error ||
-            new Error(`Request failed with status ${response.status}`)
-          );
-        }
-
-        results.push(data.result);
+      const data = await response.json();
+      if (response.status !== 200) {
+        throw (
+          data.error ||
+          new Error(`Request failed with status ${response.status}`)
+        );
       }
 
-      setResult(results.join("\n"));
+      setResult(data.result);
       setAssignmentInput("");
     } catch (error) {
       // Consider implementing your own error handling logic here
@@ -80,26 +72,26 @@ export default function Home() {
       </ul>
     );
   }
-  function splitInput(input, maxLength) {
-    const words = input.split(" ");
-    const chunks = [];
-    let currentChunk = "";
+  //   function splitInput(input, maxLength) {
+  //     const words = input.split(" ");
+  //     const chunks = [];
+  //     let currentChunk = "";
 
-    words.forEach((word) => {
-      if (currentChunk.length + word.length <= maxLength) {
-        currentChunk += " " + word;
-      } else {
-        chunks.push(currentChunk.trim());
-        currentChunk = word;
-      }
-    });
+  //     words.forEach((word) => {
+  //       if (currentChunk.length + word.length <= maxLength) {
+  //         currentChunk += " " + word;
+  //       } else {
+  //         chunks.push(currentChunk.trim());
+  //         currentChunk = word;
+  //       }
+  //     });
 
-    if (currentChunk.length > 0) {
-      chunks.push(currentChunk.trim());
-    }
+  //     if (currentChunk.length > 0) {
+  //       chunks.push(currentChunk.trim());
+  //     }
 
-    return chunks;
-  }
+  //     return chunks;
+  //   }
 
   return (
     <div className="h-screen bg-pool bg-cover bg-center p-6">

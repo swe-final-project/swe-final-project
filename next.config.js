@@ -7,5 +7,5 @@ module.exports = {
   images: {
     unoptimized: true,
   },
-  nextConfig,
+  // nextConfig,
 };
