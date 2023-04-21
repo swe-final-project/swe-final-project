@@ -1,24 +1,18 @@
 import React from "react";
 import {useSession, signIn, signOut} from 'next-auth/react'
-import { useRouter } from "next/router";
 
 
-const login = () => {
-    const {data: session} = useSession()
-    const router = useRouter()
-
-    if (session)
+export default function login(){
+    async function handleGoogleSignIn()
     {
-        router.push('/home')
+        signIn('google',{callbackUrl : "http://localhost:3000/home"})
     }
-    else {
-        return(
-            <div>
-                <p>You are not signed in</p>
-                <button onClick={() => signIn()}>Sign In</button>
-            </div>
+    const {data: session} = useSession()
+     return(
+        <div>
+            <p>You are not signed in</p>
+            <button type='button' onClick={() => handleGoogleSignIn()}>Sign In With Google</button>
+        </div>
         );
-    }
+    
 };
-
-export default login;
