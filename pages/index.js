@@ -1,18 +1,15 @@
 import React from "react";
 import {useSession, signIn, signOut} from 'next-auth/react'
+import { useRouter } from "next/router";
+
 
 const login = () => {
     const {data: session} = useSession()
-
+    const router = useRouter()
 
     if (session)
     {
-        return(
-            <div>
-                <p>{session.user.email}</p>
-                <button onClick={() => signOut()}>Sign Out</button>
-            </div>
-        )
+        router.push('/home')
     }
     else {
         return(
