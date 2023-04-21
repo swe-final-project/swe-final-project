@@ -28,11 +28,10 @@ export default function Home() {
           new Error(`Request failed with status ${response.status}`)
         );
       }
-
+      console.log(data.result);
       setResult(data.result);
       setAssignmentInput("");
     } catch (error) {
-      // Consider implementing your own error handling logic here
       console.error(error);
       alert(error.message);
     } finally {
@@ -45,6 +44,7 @@ export default function Home() {
 
     function boldPhrases(line) {
       const phrasesToBold = [
+        "requirements:",
         "technical requirements:",
         "formatting and submission requirements:",
       ];
@@ -61,37 +61,29 @@ export default function Home() {
 
       return modifiedLine;
     }
+    function getIndentLevel(line) {
+      const leadingSpaces = line.match(/^(\s+)/);
+      return leadingSpaces ? leadingSpaces[0].length : 0;
+    }
+
+    function renderLineWithIndent(line, index) {
+      const indentLevel = getIndentLevel(line);
+      const paddingLeft = indentLevel * 10; // Adjust this value to increase/decrease the indent size
+      const htmlContent = boldPhrases(line.trim());
+
+      return (
+        <li
+          key={index}
+          dangerouslySetInnerHTML={{ __html: htmlContent }}
+          style={{ paddingLeft: `${paddingLeft}px` }}
+        ></li>
+      );
+    }
+
     return (
-      <ul>
-        {lines.map((line, index) => (
-          <li
-            key={index}
-            dangerouslySetInnerHTML={{ __html: boldPhrases(line) }}
-          ></li>
-        ))}
-      </ul>
+      <ul>{lines.map((line, index) => renderLineWithIndent(line, index))}</ul>
     );
   }
-  //   function splitInput(input, maxLength) {
-  //     const words = input.split(" ");
-  //     const chunks = [];
-  //     let currentChunk = "";
-
-  //     words.forEach((word) => {
-  //       if (currentChunk.length + word.length <= maxLength) {
-  //         currentChunk += " " + word;
-  //       } else {
-  //         chunks.push(currentChunk.trim());
-  //         currentChunk = word;
-  //       }
-  //     });
-
-  //     if (currentChunk.length > 0) {
-  //       chunks.push(currentChunk.trim());
-  //     }
-
-  //     return chunks;
-  //   }
 
   return (
     <div className="h-screen bg-pool bg-cover bg-center p-6">

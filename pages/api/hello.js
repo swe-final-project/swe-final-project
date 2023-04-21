@@ -63,6 +63,6 @@ function generatePrompt(assignment) {
   //   animal[0].toUpperCase() + animal.slice(1).toLowerCase();
   return `Rewrite the following assigment instructions for clarity.
   Make each requirement into its own bullet point. 
-  In your response, separate formatting and submission requirements from the technical requirements.:
+  If there are both technical and formatting requirements, separate them into two sections.
 ${assignment}`;
 }
