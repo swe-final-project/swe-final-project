@@ -5,12 +5,14 @@
     "rewrites": [
       {
         "source": "**",
-        "function": "nextApp"
+        "function": "nextjsFunc"
       }
     ]
   },
   "functions": {
-    "source": "functions",
-    "runtime": "nodejs16"
+    "predeploy": [
+      "npm --prefix \"$PROJECT_DIR\" run build"
+    ],
+    "source": "functions"
   }
 }

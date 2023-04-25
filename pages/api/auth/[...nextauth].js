@@ -1,11 +1,15 @@
-import NextAuth from "next-auth/next"
-import GoogleProvider from "next-auth/providers/google"
+const isProd = process.env.NODE_ENV === "production";
+
 export default NextAuth({
-    providers: [
-        GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET
-        }),
-    ],
-    secret: process.env.JWT_SECRET
+  providers: [
+    GoogleProvider({
+      clientId: isProd
+        ? process.env.GOOGLE_CLIENT_ID_PROD
+        : process.env.GOOGLE_CLIENT_ID,
+      clientSecret: isProd
+        ? process.env.GOOGLE_CLIENT_SECRET_PROD
+        : process.env.GOOGLE_CLIENT_SECRET,
+    }),
+  ],
+  secret: isProd ? process.env.JWT_SECRET_PROD : process.env.JWT_SECRET,
 });
