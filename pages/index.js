@@ -5,7 +5,9 @@ import Image from "next/image";
 
 export default function login() {
   async function handleGoogleSignIn() {
-    signIn("google", { callbackUrl: "http://localhost:3000/home" });
+    signIn("google", {
+      callbackUrl: "https://swe-final-project-five.vercel.app/home",
+    });
   }
 
   return (
