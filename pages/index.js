@@ -1,5 +1,5 @@
 import React from "react";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import styles from "../styles/login.module.css";
 import Image from "next/image";
 
@@ -7,7 +7,7 @@ export default function login() {
   async function handleGoogleSignIn() {
     signIn("google", { callbackUrl: "http://localhost:3000/home" });
   }
-  //const { data: session } = useSession();
+
   return (
     <>
       <div className="flex min-h-full flex-1">
