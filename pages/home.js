@@ -45,7 +45,9 @@ export default function Home() {
     function boldPhrases(line) {
       const phrasesToBold = [
         "requirements:",
-        "technical requirements:",
+        "assignment instructions:",
+        "technical",
+        "formatting",
         "formatting and submission requirements:",
       ];
 
@@ -86,23 +88,41 @@ export default function Home() {
   }
 
   return (
-    <div className="h-screen bg-pool bg-cover bg-center p-6">
+    <div className="min-h-screen bg-pool bg-cover bg-center p-6">
       <Header />
       <div className="bg-white  m-auto backdrop-blur-lg bg-opacity-20 rounded-3xl p-8">
-        <h1 className="text-xl">Welcome!</h1>
-        <p>Paste your assignment instructions below.</p>
-        <h3>Name my pet</h3>
+        <h1 className="text-xl mb-2">Welcome!</h1>
         <form onSubmit={onSubmit}>
           <Textbox
             value={assignmentInput}
             onChange={(e) => setAssignmentInput(e.target.value)}
           />
-          <input type="submit" value="Generate names" />
+          <input
+            type="submit"
+            value="Generate"
+            className="rounded-xl my-4 p-2 m-2 ml-0 bg-white backdrop-blur-lg bg-opacity-20"
+          />
         </form>
-
-        <div>{result && renderBulletPoints(result)}</div>
+        <div>
+          {result && (
+            <div>
+              <div className="relative">
+                <div
+                  className="absolute inset-0 flex items-center"
+                  aria-hidden="true"
+                >
+                  <div className="w-full border-t border-white" />
+                </div>
+                <div className="relative flex justify-center"></div>
+              </div>
+              <div className="px-4 mt-3">
+                {result && renderBulletPoints(result)}
+              </div>
+            </div>
+          )}
+        </div>
         {loading && (
-          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50 bg-black">
+          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50 bg-black rounded-3xl">
             <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-red-400"></div>
           </div>
         )}
